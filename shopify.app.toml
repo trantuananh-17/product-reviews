@@ -1,0 +1,21 @@
+# Learn more about configuring your app at https://shopify.dev/docs/apps/tools/cli/configuration
+
+client_id = "d1f5f5f4372eb59e108dc395fcc68467"
+name = "Product Reviews"
+application_url = "https://localhost/emped"
+embedded = true
+
+[build]
+automatically_update_urls_on_dev = true
+
+[webhooks]
+api_version = "2025-10"
+
+[access_scopes]
+# Learn more at https://shopify.dev/docs/apps/tools/cli/configuration#access_scopes
+scopes = "read_analytics,read_app_proxy,write_app_proxy,read_assigned_fulfillment_orders,write_assigned_fulfillment_orders,read_customer_events,read_cart_transforms,write_cart_transforms,read_all_cart_transforms,write_checkouts,read_checkouts,read_customers,write_customers,read_customer_data_erasure,write_customer_data_erasure,read_customer_merge,write_customer_merge,write_draft_orders,read_draft_orders,write_inventory,read_inventory,read_locales,write_locales,read_merchant_managed_fulfillment_orders,write_merchant_managed_fulfillment_orders,read_online_store_navigation,write_online_store_navigation,write_order_edits,read_order_edits,read_orders,write_orders,read_product_feeds,write_product_feeds,read_product_listings,write_product_listings,read_products,write_products,read_returns,write_returns,read_script_tags,write_script_tags,read_content,write_content,read_store_credit_account_transactions,write_store_credit_account_transactions,write_theme_code,read_themes,write_themes,read_third_party_fulfillment_orders,write_third_party_fulfillment_orders,customer_read_companies,customer_write_companies,customer_write_customers,customer_read_customers,customer_read_draft_orders,customer_read_markets,customer_read_orders,customer_write_orders"
+optional_scopes = [ ]
+use_legacy_install_flow = false
+
+[auth]
+redirect_urls = [ "https://localhost/api/auth" ]
