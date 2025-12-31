@@ -1,10 +1,12 @@
-(function() {
-  const BASE_URL = 'https://leading-lauren-friendly-computers.trycloudflare.com/scripttag';
+document.querySelectorAll('.avada-root').forEach(el => {
+  if (el.__mounted) return;
+  el.__mounted = true;
 
-  const scriptElement = document.createElement('script');
-  scriptElement.type = 'text/javascript';
-  scriptElement.async = !0;
-  scriptElement.src = BASE_URL + `/avada-sale-pop.min.js?v=${new Date().getTime()}`;
-  const firstScript = document.getElementsByTagName('script')[0];
-  firstScript.parentNode.insertBefore(scriptElement, firstScript);
-})();
+  el.innerHTML = `
+    <div class="avada-ui">
+      <h3>${el.dataset.title}</h3>
+    </div>
+  `;
+});
+
+console.log(document.querySelectorAll('.avada-root'));
