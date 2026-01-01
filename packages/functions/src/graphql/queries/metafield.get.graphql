@@ -1,0 +1,15 @@
+query GetReviewsDefinition {
+  metafieldDefinitions(
+    first: 1
+    ownerType: PRODUCT
+    namespace: "air_reviews_product"
+    key: "data"
+  ) {
+    nodes {
+      id
+      name
+      namespace
+      key
+    }
+  }
+}
