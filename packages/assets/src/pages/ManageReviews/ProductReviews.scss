@@ -1,0 +1,11 @@
+.Reviews-ReviewList__Content {
+  max-width: 400px;
+
+  span {
+    white-space: initial;
+    word-wrap: break-word;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+}
