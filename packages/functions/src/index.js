@@ -4,6 +4,7 @@ import apiSaHandler from './handlers/apiSa';
 import authHandler from './handlers/auth';
 import authSaHandler from './handlers/authSa';
 import embedAppHandler from './handlers/embed';
+import clientApiHandler from './handlers/clientApi';
 
 export const embedApp = onRequest(
   {memory: '256MiB', region: ['us-central1', 'us-east1', 'europe-west2', 'asia-northeast1']},
@@ -15,3 +16,5 @@ export const apiSa = onRequest(apiSaHandler.callback());
 
 export const auth = onRequest(authHandler.callback());
 export const authSa = onRequest(authSaHandler.callback());
+
+export const clientApi = onRequest(clientApiHandler.callback());

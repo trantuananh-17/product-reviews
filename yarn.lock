@@ -287,6 +287,7 @@ __metadata:
     "@avada/utils": "npm:^2.0.3"
     "@google-cloud/firestore": "npm:^8.0.0"
     "@google-cloud/pubsub": "npm:^5.2.0"
+    "@koa/cors": "npm:^5.0.0"
     axios: "npm:^1.12.2"
     chokidar: "npm:^3.5.3"
     dotenv: "npm:^16.4.5"
@@ -4498,6 +4499,15 @@ __metadata:
   peerDependencies:
     tslib: 2
   checksum: 10c0/a2da34ae8c857e0ae4e1d7186609ef4421559f746e6a3e24a15445b86d80a40e2f1323f6b2884480a273ed349235a936d4fc4ccfd9234cecd0ceaeec37969b13
+  languageName: node
+  linkType: hard
+
+"@koa/cors@npm:^5.0.0":
+  version: 5.0.0
+  resolution: "@koa/cors@npm:5.0.0"
+  dependencies:
+    vary: "npm:^1.1.2"
+  checksum: 10c0/49e5f3b861590bd81aa3663a2f0658234a9b378840bb54a2947b3c5f2067f9d966b6fa2e9049fdc7c74c787456d1885bacd0b7ee1f134274d28282c7df99c3fd
   languageName: node
   linkType: hard
 
