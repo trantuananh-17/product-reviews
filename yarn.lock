@@ -328,6 +328,7 @@ __metadata:
     preact: "npm:^10.3.2"
     preact-context: "npm:^1.1.4"
     preact-html-converter: "npm:^0.4.2"
+    prop-types: "npm:^15.8.1"
     sass: "npm:^1.71.0"
     sass-embedded: "npm:^1.85.1"
     sass-loader: "npm:^14.2.1"

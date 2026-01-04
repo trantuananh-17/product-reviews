@@ -1,12 +1,11 @@
-document.querySelectorAll('.avada-root').forEach(el => {
-  if (el.__mounted) return;
-  el.__mounted = true;
+(function() {
+  const BASE_URL = 'https://mini-nextel-marvel-zope.trycloudflare.com/scripttag';
 
-  el.innerHTML = `
-    <div class="avada-ui">
-      <h3>${el.dataset.title}</h3>
-    </div>
-  `;
-});
+  const scriptElement = document.createElement('script');
+  scriptElement.type = 'text/javascript';
+  scriptElement.async = 1;
+  scriptElement.src = `${BASE_URL}/avada-product-review.min.js?v=${new Date().getTime()}`;
 
-console.log(document.querySelectorAll('.avada-root'));
+  const firstScript = document.getElementsByTagName('script')[0];
+  firstScript.parentNode.insertBefore(scriptElement, firstScript);
+})();

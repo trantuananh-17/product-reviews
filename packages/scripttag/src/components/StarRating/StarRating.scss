@@ -1,0 +1,229 @@
+:root {
+  --primary: #2980b9;
+  --secondary: #94c0dc;
+  --text-color: #94c0dc;
+  --bg-color: #fff;
+  --empty-color: #ededed;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: sans-serif;
+}
+
+div:empty {
+  display: block;
+}
+
+.Avada-PR {
+  &__OuterWrapper {
+    margin: 2rem 0;
+  }
+
+  &__Wrapper {
+    display: flex;
+    gap: 2rem;
+    flex-wrap: wrap;
+    align-items: start;
+  }
+}
+
+.Avada-PR__Block {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 0;
+}
+
+.Avada-PR__Rating {
+  flex: 1 1 0;
+  display: flex;
+  gap: 1.2rem;
+  margin-bottom: 1.2rem;
+}
+
+.Avada-PR__Average {
+  background-color: var(--bg-color);
+  padding: 1rem;
+  border-radius: 0.8rem;
+  text-align: center;
+  flex: 0 0 40%;
+
+  > h1 {
+    font-size: 3rem;
+    color: var(--primary);
+  }
+
+  > p {
+    margin-top: 0.7rem;
+    letter-spacing: 0.1rem;
+    color: var(--primary);
+  }
+}
+
+.Avada-PR__Star-Inner {
+  font-size: 2.5rem;
+  color: var(--secondary);
+}
+
+.Avada-PR__Progress {
+  padding: 1rem;
+  background-color: var(--bg-color);
+  flex: 1 1 30%;
+
+  &-Value {
+    height: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    column-gap: 1rem;
+    margin-top: 5px;
+
+    &:first-child {
+      margin-top: 0;
+    }
+
+    p {
+      color: var(--primary);
+    }
+  }
+
+  .Avada-PR__Star {
+    font-size: 2rem;
+    color: var(--primary);
+  }
+}
+
+.Avada-PR__Progress-Bar {
+  flex: 1 1 0;
+  height: 0.8rem;
+  border-radius: 0.5rem;
+  background-color: var(--empty-color);
+}
+
+.Avada-PR__Progress-Fill {
+  height: 0.8rem;
+  background-color: #2980b9;
+  border-radius: 0.5rem;
+}
+
+.Avada-PR__Action {
+  background: white;
+  padding: 2rem 3rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  width: 100%;
+  flex: 1 1 0;
+}
+
+.Avada-PR__Star-List {
+  display: flex;
+  flex-direction: row-reverse;
+
+  > input {
+    display: none;
+    &:not(:checked) {
+      ~ label:hover {
+        > svg {
+          fill: var(--primary);
+          stroke: var(--primary);
+        }
+      }
+
+      ~ label:hover ~ label {
+        > svg {
+          fill: var(--primary);
+          stroke: var(--primary);
+        }
+      }
+    }
+
+    &:checked {
+      ~ label {
+        > svg {
+          fill: var(--primary);
+          stroke: var(--primary);
+        }
+      }
+    }
+  }
+
+  > label {
+    padding: 0.2rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+
+    > svg {
+      fill: white;
+      stroke: var(--secondary);
+      stroke-width: 1;
+      transition: fill 0.2s ease;
+    }
+  }
+}
+
+.Avada-PR__Form {
+  display: none;
+  flex: 0 1 50%;
+  > header {
+    width: 100%;
+    font-size: 2.4rem;
+    color: var(--primary);
+    font-weight: 500;
+    margin: 5px 0 20px 0;
+    text-align: center;
+  }
+
+  &.--active {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &--Textarea {
+    overflow: hidden;
+
+    > textarea {
+      outline: none;
+      border: 1px solid var(--secondary);
+      background: white;
+      padding: 1rem;
+      border-radius: 0.8rem;
+      resize: none;
+      font-size: 17px;
+      color: var(--primary);
+    }
+  }
+
+  &--Button {
+    margin: 1.5rem 0;
+    text-align: center;
+
+    > button {
+      padding: 0.5rem 3rem;
+      border: 1px solid var(--secondary);
+      border-radius: 0.8rem;
+      outline: none;
+      background: white;
+      color: var(--primary);
+      font-size: 17px;
+      font-weight: 500;
+      text-transform: uppercase;
+      cursor: pointer;
+
+      &:hover {
+        background: var(--primary);
+        color: var(--text-color);
+      }
+    }
+  }
+}
+
+.Avada-PR__Review {
+  display: flex;
+  flex: 1 1 0;
+  width: 100%;
+  padding: 20rem;
+}
