@@ -62,7 +62,10 @@ const StarRating = ({data}) => {
           <div className="Avada-PR__Average">
             <h1>{averageRating}</h1>
             <div className="Avada-PR__Star-Outer">
-              <div className="Avada-PR__Star-Inner">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+              <div
+                className="Avada-PR__Star-Inner"
+                style={{width: `${(averageRating / 5).toFixed(2) * 100}%`}}
+              ></div>
             </div>
             <p>
               {totalPublished} {totalPublished === 1 ? 'review' : 'reviews'}

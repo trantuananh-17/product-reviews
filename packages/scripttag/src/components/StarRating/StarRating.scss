@@ -67,9 +67,28 @@ div:empty {
   }
 }
 
-.Avada-PR__Star-Inner {
+.Avada-PR__Star-Outer {
+  position: relative;
   font-size: 2.5rem;
-  color: var(--secondary);
+  display: inline-block;
+
+  &::before {
+    content: '\2605 \2605 \2605 \2605 \2605';
+    color: var(--secondary);
+  }
+
+  .Avada-PR__Star-Inner {
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    overflow: hidden;
+
+    &::before {
+      content: '\2605 \2605 \2605 \2605 \2605';
+      color: var(--primary);
+    }
+  }
 }
 
 .Avada-PR__Progress {
