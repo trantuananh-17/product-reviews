@@ -1,5 +1,5 @@
 (function() {
-  const BASE_URL = 'https://mini-nextel-marvel-zope.trycloudflare.com/scripttag';
+  const BASE_URL = 'https://elements-alot-armor-cheaper.trycloudflare.com/scripttag';
 
   const scriptElement = document.createElement('script');
   scriptElement.type = 'text/javascript';

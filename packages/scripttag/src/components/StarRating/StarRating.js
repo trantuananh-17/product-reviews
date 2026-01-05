@@ -2,6 +2,8 @@ import React from 'preact/compat';
 import './StarRating.scss';
 import PropTypes from 'prop-types';
 import StarIcon from '../../snippets/StarIcon';
+import ExpandIcon from '../../snippets/ExpandIcon';
+import {formatDateRaw} from '../../helpers/formatDate';
 
 const STAR_KEY_MAP = {
   5: 'five_star',
@@ -32,6 +34,13 @@ const STAR_KEY_MAP = {
 //     published: 0
 //   }
 // };
+
+const customer = 'Tuấn Anh';
+
+const initials = customer
+  .split(' ')
+  .map(name => name[0])
+  .join('');
 
 const StarRating = ({data}) => {
   const totalPublished = Object.values(data).reduce(
@@ -111,7 +120,71 @@ const StarRating = ({data}) => {
         </div>
       </div>
 
-      <div className={'Avada-PR__Review'}>avx</div>
+      <div className={'Avada-PR__Review'}>
+        <div className={'Avada-PR__Review-Filter'}>
+          <div className="Avada-PR__Select">
+            <div className="Avada-PR__Input">
+              <div className="Avada-PR__Value">Recent</div>
+              <div className="Avada-PR__Expand">
+                <ExpandIcon />
+              </div>
+            </div>
+          </div>
+
+          <div className="Avada-PR__Select">
+            <div className="Avada-PR__Input">
+              <div className="Avada-PR__Value">10</div>
+              <div className="Avada-PR__Expand">
+                <ExpandIcon />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="Avada-PR__Review-List">
+          <div className="Avada-PR__Review-Item">
+            <div className="Avada-PR__Review-Header">
+              <div className="Avada-PR__Avatar">{initials}</div>
+              <div className="Avada-PR__Customer">{customer}</div>
+            </div>
+            <div className="Avada-PR__Review-Detail">
+              <div className="Avada-PR__Review-Rating">
+                {[...Array(2)].map((_, i) => (
+                  <span key={`filled-${i}`} style={{color: '#2980b9'}}>
+                    &#9733;
+                  </span>
+                ))}
+
+                {[...Array(3)].map((_, i) => (
+                  <span key={`empty-${i}`} style={{color: '#ededed'}}>
+                    &#9733;
+                  </span>
+                ))}
+              </div>
+
+              <div className="Avada-PR__Review-Date">
+                {formatDateRaw('2026-01-03T12:38:55.771Z')}
+              </div>
+            </div>
+            <div
+              className="Avada-PR__Review-Content"
+              style={{
+                WebkitLineClamp: 3
+              }}
+            >
+              Lorem ipsum, dolor sit amet consectetur adipisicing elit. Nostrum architecto sit
+              adipisci unde nulla nesciunt, vero totam maiores tempore impedit neque est, quod enim
+              vel, dolorum fugit! Ab, voluptatem laborum. Lorem ipsum dolor sit amet, consectetur
+              adipisicing elit. Illo excepturi tempora consectetur dolore laboriosam iste alias
+              sapiente modi inventore tempore, ipsa incidunt! Inventore odio suscipit porro ipsam
+              possimus quisquam ratione. Lorem ipsum dolor sit amet consectetur, adipisicing elit.
+              Placeat atque aliquid sapiente magnam veritatis? Earum error quisquam, dolorum
+              assumenda totam culpa vel nesciunt provident esse voluptates, minus maiores
+              distinctio. Voluptatem.
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };
