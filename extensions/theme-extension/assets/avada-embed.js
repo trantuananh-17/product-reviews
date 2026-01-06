@@ -1,5 +1,5 @@
 (function() {
-  const BASE_URL = 'https://educational-assessment-mixed-pastor.trycloudflare.com/scripttag';
+  const BASE_URL = 'https://opt-baptist-findarticles-anthropology.trycloudflare.com/scripttag';
 
   const scriptElement = document.createElement('script');
   scriptElement.type = 'text/javascript';

@@ -19,7 +19,7 @@ export async function createMetafield(shopData) {
 export async function updateMetafieldProduct(shopData, productId, rate) {
   const data = await this.getMetafieldByProduct(shopData, productId);
 
-  let value = JSON.parse(data?.product?.metafield?.value);
+  let value = data?.product?.metafield?.value;
 
   if (!value) {
     value = {
@@ -47,7 +47,7 @@ export async function updateMetafieldProduct(shopData, productId, rate) {
         }
       }
     };
-  }
+  } else value = JSON.parse(value);
 
   const key = STAR_KEY_MAP[rate];
 
@@ -75,8 +75,6 @@ export async function updateMetafield(shopData, productId, value) {
 
 export async function getMetafieldByProduct(shopData, productId) {
   const value = await metafieldRepository.findByProducyId(shopData, productId);
-
-  console.log(value);
 
   return value;
 }
