@@ -25,6 +25,12 @@ function makeRequest(url, method, data = null, options = {}) {
     // Setup our HTTP request
     request.open(method || 'GET', url, true);
 
+    if (options.headers) {
+      Object.entries(options.headers).forEach(([key, value]) => {
+        request.setRequestHeader(key, value);
+      });
+    }
+
     // Send the request
     if (data) {
       if (options.contentType) {

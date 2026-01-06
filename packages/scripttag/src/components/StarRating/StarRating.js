@@ -12,28 +12,6 @@ const STAR_KEY_MAP = {
   2: 'two_star',
   1: 'one_star'
 };
-// const data = {
-//   four_star: {
-//     unpublished: 1,
-//     published: 1
-//   },
-//   one_star: {
-//     unpublished: 0,
-//     published: 1
-//   },
-//   three_star: {
-//     unpublished: 0,
-//     published: 0
-//   },
-//   five_star: {
-//     published: 0,
-//     unpublished: 0
-//   },
-//   two_star: {
-//     unpublished: 0,
-//     published: 0
-//   }
-// };
 
 const customer = 'Tuấn Anh';
 
@@ -102,7 +80,7 @@ const StarRating = ({data}) => {
             {[5, 4, 3, 2, 1].map(star => {
               return (
                 <>
-                  <input type="radio" name="rate" id={`rate-${star}`} value={STAR_KEY_MAP[star]} />
+                  <input type="radio" name="rate" id={`rate-${star}`} value={star} />
                   <label htmlFor={`rate-${star}`}>
                     <StarIcon />
                   </label>
@@ -114,10 +92,18 @@ const StarRating = ({data}) => {
           <div className="Avada-PR__Form">
             <header className={'Avada-PR__Form-Header'}></header>
             <div className="Avada-PR__Form--Textarea">
-              <textarea cols={30} placeholder={'Đánh giá sản phẩm...'}></textarea>
+              <textarea
+                id={'Avada-PR__Form-TextArea'}
+                cols={30}
+                placeholder={'Đánh giá sản phẩm...'}
+              ></textarea>
+
+              <div className="Avada-PR__Form-Error"></div>
             </div>
             <div className="Avada-PR__Form--Button">
-              <button type={'submit'}>Gửi</button>
+              <button id={'Avada-PR__Form-Submit'} type={'submit'}>
+                Gửi
+              </button>
             </div>
           </div>
         </div>

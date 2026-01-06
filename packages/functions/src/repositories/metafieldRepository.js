@@ -35,7 +35,7 @@ export async function findOne(shopData) {
   return metafieldGraphql;
 }
 
-export async function updateOne(shopData) {
+export async function updateOne(shopData, productId, value) {
   const shopify = await initShopify(shopData);
 
   const mutation = loadGraphQL('/mutations/productMetafield.update.graphql');
@@ -45,9 +45,9 @@ export async function updateOne(shopData) {
       {
         key: 'data',
         namespace: 'reviews_product',
-        ownerId: 'gid://shopify/Product/10018120892696',
+        ownerId: `gid://shopify/Product/${productId}`,
         type: 'json',
-        value: JSON.stringify({reviewText: 'review'})
+        value: JSON.stringify(value)
       }
     ]
   };
@@ -55,4 +55,18 @@ export async function updateOne(shopData) {
   const metafieldGraphql = await shopify.graphql(mutation, variables);
 
   return metafieldGraphql;
+}
+
+export async function findByProducyId(shopData, productId) {
+  const shopify = await initShopify(shopData);
+
+  const query = loadGraphQL('/queries/productById.graphql');
+
+  const variables = {
+    id: `gid://shopify/Product/${productId}`
+  };
+
+  const metafieldByProductGraphql = await shopify.graphql(query, variables);
+
+  return metafieldByProductGraphql;
 }

@@ -1,5 +1,4 @@
 import {Firestore} from '@google-cloud/firestore';
-import {presentDataAndFormatDate} from '@avada/firestore-utils';
 
 const firestore = new Firestore();
 /** @type CollectionReference */
@@ -9,6 +8,7 @@ export async function findAll(shopId, softBy, filter) {}
 
 export async function save(data, shopId, shopDomain) {
   const docRef = reviewRef.doc();
+  const created = new Date();
   const payload = {
     id: docRef.id,
     ...data,
@@ -17,12 +17,22 @@ export async function save(data, shopId, shopDomain) {
     ignoreContentValidation: false,
     notificationSource: 'email',
     status: 'disapproved',
-    createdAt: new Date()
+    created
+  };
+
+  const review = {
+    id: docRef.id,
+    ...data,
+    shopDomain,
+    ignoreContentValidation: false,
+    notificationSource: 'email',
+    status: 'disapproved',
+    created
   };
 
   await docRef.set(payload);
 
-  return payload;
+  return review;
 }
 
 export async function getOne() {}

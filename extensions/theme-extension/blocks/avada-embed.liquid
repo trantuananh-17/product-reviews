@@ -1,3 +1,63 @@
+
+{% assign metafield = product.metafields.reviews_product.data %}
+
+<div>
+  {{ metafield }}
+</div>
+<script>
+  window.Avada_Reviews = {
+    customer: {% if customer %}
+    {
+      id: {{ customer.id | json }},
+      firstName: {{ customer.first_name | json }},
+      lastName: {{ customer.last_name | json }},
+      email:  {{ customer.email| json }},
+      orders: {{ customer.orders_count | json}},
+    }
+    {% else %}
+      null
+    {% endif %},
+    product: {{ product | json }},
+    productReview: {
+      reviewSummary: 
+        {% if metafield and metafield.value.reviewSummary %}
+          {{ metafield.value.reviewSummary | json }}
+        {% else %}
+          {
+            "five_star": {
+              "published": 0,
+              "unpublished": 0
+            },
+            "four_star": {
+              "unpublished": 0,
+              "published": 0
+            },
+            "three_star": {
+              "unpublished": 0,
+              "published": 0
+            },
+            "two_star": {
+              "unpublished": 0,
+              "published": 0
+            },
+            "one_star": {
+              "unpublished": 0,
+              "published": 0
+            }
+          },
+          reviews: 
+          {%  if metafield and metafield.value.reviews %}
+            {{ metafield.value.reviews | json}}
+          {% else %}
+            []
+          {% endif %}
+        {% endif %}
+      }
+  };
+</script>
+
+
+
 {% schema %}
 {
   "name": "Product Reviews",
