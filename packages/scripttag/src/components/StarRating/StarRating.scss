@@ -138,8 +138,8 @@ div:empty {
 }
 
 .Avada-PR__Action {
+  padding: 2rem 1rem;
   background: white;
-  padding: 2rem 3rem;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -204,7 +204,7 @@ div:empty {
     font-size: 2.4rem;
     color: var(--primary);
     font-weight: 500;
-    margin: 5px 0 20px 0;
+    margin: 0.3rem 0;
     text-align: center;
   }
 
@@ -214,8 +214,6 @@ div:empty {
   }
 
   &--Textarea {
-    overflow: hidden;
-
     > textarea {
       outline: none;
       border: 1px solid var(--secondary);
@@ -225,11 +223,18 @@ div:empty {
       resize: none;
       font-size: 17px;
       color: var(--primary);
+      width: 100%;
+      box-sizing: border-box;
+
+      &::placeholder {
+        font-size: 1.4rem;
+        color: var(--secondary);
+      }
     }
   }
 
   &--Button {
-    margin: 1.5rem 0;
+    margin: 0.5rem 0;
     text-align: center;
 
     > button {
@@ -247,6 +252,11 @@ div:empty {
       &:hover {
         background: var(--primary);
         color: var(--text-color);
+      }
+
+      &.-disable {
+        background: rgb(104, 104, 104);
+        color: white;
       }
     }
   }
@@ -306,6 +316,11 @@ div:empty {
     padding: 2rem;
     border: 1px solid var(--bg-secondary-color);
     border-radius: 0.5rem;
+
+    .Avada-PR__Empty {
+      color: var(--primary);
+      font-size: 1.8rem;
+    }
   }
 }
 
@@ -358,4 +373,24 @@ div:empty {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: pre-line;
+}
+
+.Avada-RP {
+  &__Icon {
+    text-align: center;
+    > svg {
+      fill: var(--primary);
+      stroke: var(--primary);
+
+      > circle {
+        fill: var(--primary);
+        stroke: var(--primary);
+      }
+    }
+  }
+
+  &__Titlte {
+    color: var(--primary);
+    font-size: 1.8rem;
+  }
 }

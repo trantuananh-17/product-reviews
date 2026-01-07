@@ -1,6 +1,7 @@
 import {render} from 'preact';
 import React from 'preact/compat';
 import StarRating from '../components/StarRating/StarRating';
+import ReviewedPanel from '../components/ReviewedPanel';
 
 export default class ReviewSummaryManager {
   constructor() {
@@ -63,6 +64,9 @@ export default class ReviewSummaryManager {
     const button = document.querySelector('#Avada-PR__Form-Submit');
 
     button.addEventListener('click', async () => {
+      button.disabled = true;
+      button.classList.add('-disable');
+      button.textContent = 'Đang gửi...';
       const {id, handle, featured_image, title} = this.product;
       const {rate, content} = this.formValue;
       const {firstName, lastName, email} = this.customer;
@@ -84,9 +88,12 @@ export default class ReviewSummaryManager {
         productHandle: handle
       };
 
-      const review = await this.apiManager.createReview(payload);
+      await this.apiManager.createReview(payload);
 
-      console.log(review);
+      const actionEl = document.querySelector('.Avada-PR__Action');
+
+      actionEl.innerHTML = '';
+      render(<ReviewedPanel />, actionEl);
     });
   }
 

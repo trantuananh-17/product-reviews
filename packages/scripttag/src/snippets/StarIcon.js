@@ -2,7 +2,7 @@ import React from 'preact/compat';
 
 const StarIcon = () => {
   return (
-    <svg width="32" height="32" viewBox="0 0 24 24" fill={'gold'}>
+    <svg width="28" height="28" viewBox="0 0 24 24" fill={'gold'}>
       <path
         d="M12 17.27L18.18 21l-1.64-7.03L22 9.24
            l-7.19-.61L12 2 9.19 8.63

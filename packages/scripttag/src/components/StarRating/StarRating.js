@@ -130,7 +130,7 @@ const StarRating = ({reviewSumary, reviews}) => {
         </div>
 
         <div className="Avada-PR__Review-List">
-          {reviews &&
+          {reviews.length > 0 ? (
             reviews.map(review => (
               <div className="Avada-PR__Review-Item" key={review.id}>
                 <div className="Avada-PR__Review-Header">
@@ -165,7 +165,12 @@ const StarRating = ({reviewSumary, reviews}) => {
                   {review.content}
                 </div>
               </div>
-            ))}
+            ))
+          ) : (
+            <div className="Avada-PR__Review-Item">
+              <p className={'Avada-PR__Empty'}>Chưa có đánh giá!</p>
+            </div>
+          )}
         </div>
       </div>
     </div>
