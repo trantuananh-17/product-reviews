@@ -31,7 +31,7 @@ export default class ReviewSummaryManager {
 
     if (!container) return;
 
-    render(<StarRating data={this.reviewSummary} />, container);
+    render(<StarRating reviewSumary={this.reviewSummary} reviews={this.reviews} />, container);
   }
 
   activeForm() {

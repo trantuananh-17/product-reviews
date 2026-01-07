@@ -13,22 +13,21 @@ const STAR_KEY_MAP = {
   1: 'one_star'
 };
 
-const customer = 'Tuấn Anh';
+const initials = customer =>
+  customer
+    .split(' ')
+    .map(name => name[0])
+    .join('');
 
-const initials = customer
-  .split(' ')
-  .map(name => name[0])
-  .join('');
-
-const StarRating = ({data}) => {
-  const totalPublished = Object.values(data).reduce(
+const StarRating = ({reviewSumary, reviews}) => {
+  const totalPublished = Object.values(reviewSumary).reduce(
     (sum, starObj) => sum + (starObj.published ?? 0),
     0
   );
 
   const totalScore = [1, 2, 3, 4, 5].reduce((sum, star) => {
     const key = STAR_KEY_MAP[star];
-    return sum + star * (data[key]?.published ?? 0);
+    return sum + star * (reviewSumary[key]?.published ?? 0);
   }, 0);
 
   const averageRating = totalPublished ? (totalScore / totalPublished).toFixed(1) : 0;
@@ -54,7 +53,7 @@ const StarRating = ({data}) => {
             {[5, 4, 3, 2, 1].map(star => {
               const key = STAR_KEY_MAP[star];
 
-              const value = data[key]?.published ?? 0;
+              const value = reviewSumary[key]?.published ?? 0;
 
               return (
                 <div key={star} className="Avada-PR__Progress-Value">
@@ -131,47 +130,42 @@ const StarRating = ({data}) => {
         </div>
 
         <div className="Avada-PR__Review-List">
-          <div className="Avada-PR__Review-Item">
-            <div className="Avada-PR__Review-Header">
-              <div className="Avada-PR__Avatar">{initials}</div>
-              <div className="Avada-PR__Customer">{customer}</div>
-            </div>
-            <div className="Avada-PR__Review-Detail">
-              <div className="Avada-PR__Review-Rating">
-                {[...Array(2)].map((_, i) => (
-                  <span key={`filled-${i}`} style={{color: '#2980b9'}}>
-                    &#9733;
-                  </span>
-                ))}
+          {reviews &&
+            reviews.map(review => (
+              <div className="Avada-PR__Review-Item" key={review.id}>
+                <div className="Avada-PR__Review-Header">
+                  <div className="Avada-PR__Avatar">
+                    {initials(`${review.firstName} ${review.lastName}`)}
+                  </div>
+                  <div className="Avada-PR__Customer">{`${review.firstName} ${review.lastName}`}</div>
+                </div>
+                <div className="Avada-PR__Review-Detail">
+                  <div className="Avada-PR__Review-Rating">
+                    {[...Array(review.rate)].map((_, i) => (
+                      <span key={`filled-${i}`} style={{color: '#2980b9'}}>
+                        &#9733;
+                      </span>
+                    ))}
 
-                {[...Array(3)].map((_, i) => (
-                  <span key={`empty-${i}`} style={{color: '#ededed'}}>
-                    &#9733;
-                  </span>
-                ))}
-              </div>
+                    {[...Array(5 - review.rate)].map((_, i) => (
+                      <span key={`empty-${i}`} style={{color: '#ededed'}}>
+                        &#9733;
+                      </span>
+                    ))}
+                  </div>
 
-              <div className="Avada-PR__Review-Date">
-                {formatDateRaw('2026-01-03T12:38:55.771Z')}
+                  <div className="Avada-PR__Review-Date">{formatDateRaw(review.createdAt)}</div>
+                </div>
+                <div
+                  className="Avada-PR__Review-Content"
+                  style={{
+                    WebkitLineClamp: 3
+                  }}
+                >
+                  {review.content}
+                </div>
               </div>
-            </div>
-            <div
-              className="Avada-PR__Review-Content"
-              style={{
-                WebkitLineClamp: 3
-              }}
-            >
-              Lorem ipsum, dolor sit amet consectetur adipisicing elit. Nostrum architecto sit
-              adipisci unde nulla nesciunt, vero totam maiores tempore impedit neque est, quod enim
-              vel, dolorum fugit! Ab, voluptatem laborum. Lorem ipsum dolor sit amet, consectetur
-              adipisicing elit. Illo excepturi tempora consectetur dolore laboriosam iste alias
-              sapiente modi inventore tempore, ipsa incidunt! Inventore odio suscipit porro ipsam
-              possimus quisquam ratione. Lorem ipsum dolor sit amet consectetur, adipisicing elit.
-              Placeat atque aliquid sapiente magnam veritatis? Earum error quisquam, dolorum
-              assumenda totam culpa vel nesciunt provident esse voluptates, minus maiores
-              distinctio. Voluptatem.
-            </div>
-          </div>
+            ))}
         </div>
       </div>
     </div>
@@ -180,5 +174,6 @@ const StarRating = ({data}) => {
 export default StarRating;
 
 StarRating.propTypes = {
-  data: PropTypes.object
+  reviewSumary: PropTypes.object,
+  reviews: PropTypes.array
 };

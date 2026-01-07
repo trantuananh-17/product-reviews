@@ -37,6 +37,7 @@ function makeRequest(url, method, data = null, options = {}) {
         const contentType = options.contentType || 'application/json;charset=UTF-8';
         request.setRequestHeader('Content-Type', contentType);
         request.send(JSON.stringify(data));
+        return;
       }
 
       request.send(data);

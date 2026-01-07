@@ -6,7 +6,8 @@ import {
   RangeSlider,
   TextField,
   useIndexResourceState,
-  useSetIndexFiltersMode
+  useSetIndexFiltersMode,
+  EmptyState
 } from '@shopify/polaris';
 import React, {useCallback, useState} from 'react';
 import ProductTitle from '../ProductTitle/ProductTitle';
@@ -14,10 +15,15 @@ import StarRating from '../StarRating';
 import ReviewContent from '../ReviewContent/ReviewContent';
 import {formatDateOnly} from '@assets/helpers/utils/formatFullTime';
 import ReviewStatus from '../ReviewStatus';
-import PropTypes from 'prop-types';
 import useEditApi from '@assets/hooks/api/useEditApi';
+import useFetchApi from '@assets/hooks/api/useFetchApi';
 
-export default function IndexFilterPR({reviews}) {
+export default function IndexFilterPR() {
+  const {loading: fetchLoading, data: reviews, fetched, fetchApi} = useFetchApi({
+    url: '/reviews',
+    defaultData: null
+  });
+
   const itemStrings = ['All', 'Published', 'Unpublished'];
 
   const tabs = itemStrings.map((item, index) => ({
@@ -28,6 +34,7 @@ export default function IndexFilterPR({reviews}) {
     isLocked: index === 0
   }));
   const [selected, setSelected] = useState(0);
+  const [editLoading, setEditLoading] = useState(false);
 
   const sortOptions = [
     {label: 'Date', value: 'date asc', directionLabel: 'Ascending'},
@@ -160,35 +167,44 @@ export default function IndexFilterPR({reviews}) {
   });
 
   const onUpdateStatus = async (id, status) => {
-    console.log(id, status);
+    setEditLoading(true);
 
-    await handleEdit({id, status});
+    try {
+      await handleEdit({id, status});
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setEditLoading(false);
+    }
+    fetchApi();
   };
 
-  const rowMarkup = reviews.map(
-    (
-      {id, product, firstName, lastName, rate, email, productId, content, createdAt, status},
-      index
-    ) => (
-      <IndexTable.Row id={id} key={id} selected={selectedResources.includes(id)} position={index}>
-        <IndexTable.Cell flush={true}>
-          <ProductTitle />
-        </IndexTable.Cell>
-        <IndexTable.Cell>
-          <StarRating rate={rate} />
-        </IndexTable.Cell>
+  const rowMarkup =
+    reviews &&
+    reviews.data.map(
+      (
+        {id, product, firstName, lastName, rate, email, productId, content, createdAt, status},
+        index
+      ) => (
+        <IndexTable.Row id={id} key={id} selected={selectedResources.includes(id)} position={index}>
+          <IndexTable.Cell flush={true}>
+            <ProductTitle />
+          </IndexTable.Cell>
+          <IndexTable.Cell>
+            <StarRating rate={rate} />
+          </IndexTable.Cell>
 
-        <IndexTable.Cell>
-          <ReviewContent content={content} />
-        </IndexTable.Cell>
+          <IndexTable.Cell>
+            <ReviewContent content={content} />
+          </IndexTable.Cell>
 
-        <IndexTable.Cell>{formatDateOnly(createdAt)}</IndexTable.Cell>
-        <IndexTable.Cell>
-          <ReviewStatus status={status} onUpdateStatus={status => onUpdateStatus(id, status)} />
-        </IndexTable.Cell>
-      </IndexTable.Row>
-    )
-  );
+          <IndexTable.Cell>{formatDateOnly(createdAt)}</IndexTable.Cell>
+          <IndexTable.Cell>
+            <ReviewStatus status={status} onUpdateStatus={status => onUpdateStatus(id, status)} />
+          </IndexTable.Cell>
+        </IndexTable.Row>
+      )
+    );
 
   const bulkActions = [
     {
@@ -212,9 +228,20 @@ export default function IndexFilterPR({reviews}) {
     }
   ];
 
+  const emptyStateMarkup = (
+    <EmptyState
+      heading="No reviews found"
+      image="https://cdn.shopify.com/s/files/1/0757/9955/files/empty-state.svg"
+    >
+      <p>Try changing the filters or search term.</p>
+    </EmptyState>
+  );
+
   return (
     <LegacyCard>
       <IndexFilters
+        loading={editLoading || fetchLoading}
+        disabled={editLoading || fetchLoading}
         sortOptions={sortOptions}
         sortSelected={sortSelected}
         queryValue={queryValue}
@@ -237,10 +264,12 @@ export default function IndexFilterPR({reviews}) {
         setMode={setMode}
       />
       <IndexTable
+        loading={!fetched}
         resourceName={resourceName}
-        itemCount={reviews.length}
+        itemCount={reviews && reviews.data.length}
         selectedItemsCount={allResourcesSelected ? 'All' : selectedResources.length}
         onSelectionChange={handleSelectionChange}
+        emptyState={emptyStateMarkup}
         headings={[
           {title: 'Product'},
           {title: 'Rating'},
@@ -277,6 +306,4 @@ export default function IndexFilterPR({reviews}) {
   }
 }
 
-IndexFilterPR.propTypes = {
-  reviews: PropTypes.array
-};
+IndexFilterPR.propTypes = {};
