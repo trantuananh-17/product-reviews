@@ -33,7 +33,21 @@ export async function createReview(shopifyDomain, data) {
 
   const review = await reviewRepository.save(data, shopData.id, shopData.shopifyDomain);
 
-  await metafieldService.updateMetafieldProduct(shopData, productId, rate);
+  await metafieldService.createMetafieldProduct(shopData, productId, rate);
+
+  return review;
+}
+
+export async function updateStatusReview(shopData, id, status) {
+  await reviewRepository.updateOne(id, {status});
+
+  const review = await reviewRepository.findOne(id);
+
+  if (!review) {
+    throw new Error('Reviews not found');
+  }
+
+  await metafieldService.updateStatusProduct(shopData, review, status);
 
   return review;
 }

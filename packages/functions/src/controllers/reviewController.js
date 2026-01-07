@@ -1,4 +1,4 @@
-import {getCurrentShop} from '@functions/helpers/auth';
+import {getCurrentShop, getCurrentShopData} from '@functions/helpers/auth';
 import * as reviewService from '@functions/services/reviewService';
 
 export async function getReviews(ctx) {
@@ -17,11 +17,32 @@ export async function getReviews(ctx) {
 
     ctx.status = 200;
     ctx.body = {
-      data,
-      pagination: {
-        total,
-        ...pageInfo
+      data: {
+        data,
+        pagination: {
+          total,
+          ...pageInfo
+        }
       }
+    };
+  } catch (error) {
+    console.error(error);
+    ctx.status = 404;
+    ctx.body = {success: false};
+  }
+}
+
+export async function updateStatusReview(ctx) {
+  try {
+    const shopData = getCurrentShopData(ctx);
+
+    const {id, status} = ctx.req.body;
+
+    const resp = await reviewService.updateStatusReview(shopData, id, status);
+
+    ctx.status = 200;
+    ctx.body = {
+      data: resp
     };
   } catch (error) {
     console.error(error);

@@ -1,11 +1,9 @@
 import {
-  Button,
   ChoiceList,
   IndexFilters,
   IndexTable,
   LegacyCard,
   RangeSlider,
-  Text,
   TextField,
   useIndexResourceState,
   useSetIndexFiltersMode
@@ -16,8 +14,10 @@ import StarRating from '../StarRating';
 import ReviewContent from '../ReviewContent/ReviewContent';
 import {formatDateOnly} from '@assets/helpers/utils/formatFullTime';
 import ReviewStatus from '../ReviewStatus';
+import PropTypes from 'prop-types';
+import useEditApi from '@assets/hooks/api/useEditApi';
 
-export default function IndexFilterPR() {
+export default function IndexFilterPR({reviews}) {
   const itemStrings = ['All', 'Published', 'Unpublished'];
 
   const tabs = itemStrings.map((item, index) => ({
@@ -37,7 +37,7 @@ export default function IndexFilterPR() {
     {label: 'Review with media', value: 'media asc', directionLabel: 'Oldest first'},
     {label: 'Review with media', value: 'media desc', directionLabel: 'Newest first'}
   ];
-  const [sortSelected, setSortSelected] = useState(['order asc']);
+  const [sortSelected, setSortSelected] = useState(['date desc']);
   const {mode, setMode} = useSetIndexFiltersMode();
   const onHandleCancel = () => {};
 
@@ -146,57 +146,28 @@ export default function IndexFilterPR() {
     });
   }
 
-  const orders = [
-    {
-      id: 'eA4vFrv3AiP0dse9ABLU',
-      product: {
-        image:
-          'https://cdn.shopify.com/s/files/1/0965/4901/1736/files/Main_589fc064-24a2-4236-9eaf-13b2bd35d21d.jpg?v=1767171974',
-        productLink: 'https://avada-second-chance.myshopify.com/products/the-complete-snowboard',
-        title: 'The Complete Snowboard'
-      },
-      rate: 5,
-      firstName: 'Anh',
-      helpful: 1,
-      lastName: 'Anh',
-      email: 'anhtt@avadagroup.com',
-      productId: 10018120892696,
-      createdAt: '2025-12-31T17:41:24.069Z',
-      content: 'SAhihi',
-      status: 'approved'
-    },
-    {
-      id: 'eA4vFrv3AiP0dse9ABLU',
-      product: {
-        image:
-          'https://cdn.shopify.com/s/files/1/0965/4901/1736/files/Main_589fc064-24a2-4236-9eaf-13b2bd35d21d.jpg?v=1767171974',
-        productLink: 'https://avada-second-chance.myshopify.com/products/the-complete-snowboard',
-        title: 'The Complete Snowboard'
-      },
-      rate: 5,
-      firstName: 'Anh',
-      helpful: 1,
-      lastName: 'Anh',
-      email: 'anhtt@avadagroup.com',
-      productId: 10018120892696,
-      createdAt: '2025-12-31T17:41:24.069Z',
-      content: 'SAhihi',
-      status: 'approved'
-    }
-  ];
-
   const resourceName = {
-    singular: 'order',
-    plural: 'ordersavbc'
+    singular: 'review',
+    plural: 'reviews'
   };
 
   const {selectedResources, allResourcesSelected, handleSelectionChange} = useIndexResourceState(
-    orders
+    reviews
   );
 
-  const rowMarkup = orders.map(
+  const {handleEdit} = useEditApi({
+    url: '/reviews'
+  });
+
+  const onUpdateStatus = async (id, status) => {
+    console.log(id, status);
+
+    await handleEdit({id, status});
+  };
+
+  const rowMarkup = reviews.map(
     (
-      {id, product, firstName, lastName, helpful, email, productId, content, createdAt, status},
+      {id, product, firstName, lastName, rate, email, productId, content, createdAt, status},
       index
     ) => (
       <IndexTable.Row id={id} key={id} selected={selectedResources.includes(id)} position={index}>
@@ -204,7 +175,7 @@ export default function IndexFilterPR() {
           <ProductTitle />
         </IndexTable.Cell>
         <IndexTable.Cell>
-          <StarRating />
+          <StarRating rate={rate} />
         </IndexTable.Cell>
 
         <IndexTable.Cell>
@@ -213,7 +184,7 @@ export default function IndexFilterPR() {
 
         <IndexTable.Cell>{formatDateOnly(createdAt)}</IndexTable.Cell>
         <IndexTable.Cell>
-          <ReviewStatus status={status} />
+          <ReviewStatus status={status} onUpdateStatus={status => onUpdateStatus(id, status)} />
         </IndexTable.Cell>
       </IndexTable.Row>
     )
@@ -267,7 +238,7 @@ export default function IndexFilterPR() {
       />
       <IndexTable
         resourceName={resourceName}
-        itemCount={orders.length}
+        itemCount={reviews.length}
         selectedItemsCount={allResourcesSelected ? 'All' : selectedResources.length}
         onSelectionChange={handleSelectionChange}
         headings={[
@@ -305,3 +276,7 @@ export default function IndexFilterPR() {
     }
   }
 }
+
+IndexFilterPR.propTypes = {
+  reviews: PropTypes.array
+};

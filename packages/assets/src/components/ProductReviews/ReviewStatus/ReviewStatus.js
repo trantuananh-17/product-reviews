@@ -6,8 +6,8 @@ import PropTypes from 'prop-types';
 export default function ReviewStatus({status, onUpdateStatus}) {
   const [active, setActive] = useState(false);
   const badgeMap = {
-    approved: <Badge tone="success">Published</Badge>,
-    disapproved: <Badge tone="enabled">Unpublished</Badge>
+    published: <Badge tone="success">Published</Badge>,
+    unpublished: <Badge tone="enabled">Unpublished</Badge>
   };
 
   const toggleActive = useCallback(() => setActive(active => !active), []);
@@ -23,8 +23,24 @@ export default function ReviewStatus({status, onUpdateStatus}) {
       <Popover active={active} activator={activator} onClose={toggleActive}>
         <ActionList
           items={[
-            {content: 'Publish', active: status === 'approved'},
-            {content: 'Unpublish', active: status === 'disapproved'}
+            {
+              content: 'Publish',
+              active: status === 'published',
+              disabled: status === 'published',
+              onAction: () => {
+                onUpdateStatus?.('published');
+                toggleActive();
+              }
+            },
+            {
+              content: 'Unpublish',
+              active: status === 'unpublished',
+              disabled: status === 'unpublished',
+              onAction: () => {
+                onUpdateStatus?.('unpublished');
+                toggleActive();
+              }
+            }
           ]}
         />
       </Popover>

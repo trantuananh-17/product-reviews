@@ -37,6 +37,12 @@ export async function findAll(shopId, softBy, limit, page, after, before) {
   }
 }
 
+export async function findOne(id) {
+  const doc = await reviewRef.doc(id).get();
+
+  return presentDataAndFormatDate(doc);
+}
+
 export async function getCountTotalDocs(shopId) {
   const snap = await reviewRef
     .where('shopId', '==', shopId)
@@ -56,7 +62,7 @@ export async function save(data, shopId, shopDomain) {
     shopDomain,
     ignoreContentValidation: false,
     notificationSource: 'email',
-    status: 'disapproved',
+    status: 'unpublished',
     createdAt
   };
 
@@ -66,13 +72,20 @@ export async function save(data, shopId, shopDomain) {
     shopDomain,
     ignoreContentValidation: false,
     notificationSource: 'email',
-    status: 'disapproved',
+    status: 'unpublished',
     createdAt
   };
 
   await docRef.set(payload);
 
   return review;
+}
+
+export async function updateOne(id, data) {
+  await reviewRef.doc(id).update({
+    ...data,
+    updatedAt: new Date()
+  });
 }
 
 export async function getOne() {}

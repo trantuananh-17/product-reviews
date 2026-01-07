@@ -20,6 +20,7 @@ export default function apiRouter(isEmbed = false) {
   router.delete('/subscriptions/:id', subscriptionController.deleteOne);
 
   router.get('/reviews', reviewController.getReviews);
+  router.put('/reviews', reviewController.updateStatusReview);
 
   return router;
 }
