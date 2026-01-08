@@ -1,5 +1,5 @@
 (function() {
-  const BASE_URL = 'https://bears-lions-shops-textile.trycloudflare.com/scripttag';
+  const BASE_URL = 'https://axis-rolls-jury-spot.trycloudflare.com/scripttag';
 
   const scriptElement = document.createElement('script');
   scriptElement.type = 'text/javascript';

@@ -33,7 +33,38 @@ export async function updateStatusProduct(shopData, data, status) {
     value.reviewSummary[key].published -= 1;
   }
 
-  await this.updateMetafield(shopData, productId, value);
+  const ratingCount = getTotalReview(value.reviewSummary);
+  const ratingScore = getRatingScore(value.reviewSummary);
+
+  console.log('ratingCount,', ratingCount);
+  console.log('ratingScore,', ratingScore);
+  console.log('value,', value);
+
+  const metafields = [
+    {
+      key: 'data',
+      namespace: 'reviews_product',
+      ownerId: `gid://shopify/Product/${productId}`,
+      type: 'json',
+      value: JSON.stringify(value)
+    },
+    {
+      ownerId: `gid://shopify/Product/${productId}`,
+      namespace: 'reviews',
+      key: 'rating',
+      type: 'rating',
+      value: `{"scale_min":1.0,"scale_max":5.0,"value":${ratingScore / ratingCount}}`
+    },
+    {
+      ownerId: `gid://shopify/Product/${productId}`,
+      namespace: 'reviews',
+      key: 'rating_count',
+      type: 'number_integer',
+      value: `${ratingCount}`
+    }
+  ];
+
+  await updateMetafield(shopData, metafields);
 }
 
 export async function createMetafieldProduct(shopData, productId, rate) {
@@ -43,7 +74,17 @@ export async function createMetafieldProduct(shopData, productId, rate) {
 
   value.reviewSummary[key].unpublished += 1;
 
-  await this.updateMetafield(shopData, productId, value);
+  const metafields = [
+    {
+      key: 'data',
+      namespace: 'reviews_product',
+      ownerId: `gid://shopify/Product/${productId}`,
+      type: 'json',
+      value: JSON.stringify(value)
+    }
+  ];
+
+  await updateMetafield(shopData, metafields);
 
   console.log('Success');
 }
@@ -57,8 +98,8 @@ export async function checkExistMetafield(shopData) {
   }
 }
 
-export async function updateMetafield(shopData, productId, value) {
-  await metafieldRepository.updateOne(shopData, productId, value);
+export async function updateMetafield(shopData, metafields) {
+  await metafieldRepository.updateOne(shopData, metafields);
 
   console.log('success');
 }
@@ -86,4 +127,17 @@ function createEmptyMetafield() {
       one_star: {published: 0, unpublished: 0}
     }
   };
+}
+
+function getTotalReview(reviewSumary) {
+  return Object.values(reviewSumary).reduce((sum, starObj) => sum + (starObj.published ?? 0), 0);
+}
+
+function getRatingScore(reviewSumary) {
+  console.log(reviewSumary);
+
+  return [1, 2, 3, 4, 5].reduce((sum, star) => {
+    const key = STAR_KEY_MAP[star];
+    return sum + star * (reviewSumary[key]?.published ?? 0);
+  }, 0);
 }

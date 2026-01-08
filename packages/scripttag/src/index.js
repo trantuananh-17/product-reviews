@@ -12,10 +12,16 @@ console.log(Avada_Reviews);
   const reviews = Avada_Reviews.productReview.reviews;
   const product = Avada_Reviews.product;
   const customer = Avada_Reviews.customer;
+  const rating = Avada_Reviews.rating;
+  const ratingCount = Avada_Reviews.ratingCount;
 
-  console.log('reviews', reviews);
-  console.log('product', product);
-  console.log('customer', customer);
-
-  reviewSummaryManager.initialize(product, customer, reviewSummary, reviews, apiManager);
+  reviewSummaryManager.initialize(
+    product,
+    customer,
+    reviewSummary,
+    reviews,
+    Number(rating),
+    Number(ratingCount),
+    apiManager
+  );
 })();

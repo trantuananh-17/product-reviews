@@ -11,14 +11,21 @@ export default class ReviewSummaryManager {
     this.product = {};
     this.customer = {};
     this.reviews = [];
+    this.rating = 0;
+    this.ratingCount = 0;
   }
 
-  initialize(product, customer, reviewSummary, reviews, apiManager) {
+  initialize(product, customer, reviewSummary, reviews, rating, ratingCount, apiManager) {
     this.reviewSummary = reviewSummary;
     this.apiManager = apiManager;
     this.product = product;
     this.customer = customer;
     this.reviews = reviews;
+    this.rating = rating;
+    this.ratingCount = ratingCount;
+
+    console.log(this.rating);
+    console.log(this.ratingCount);
 
     this.display();
 
@@ -32,7 +39,15 @@ export default class ReviewSummaryManager {
 
     if (!container) return;
 
-    render(<StarRating reviewSumary={this.reviewSummary} reviews={this.reviews} />, container);
+    render(
+      <StarRating
+        reviewSumary={this.reviewSummary}
+        reviews={this.reviews}
+        rating={this.rating}
+        ratingCount={this.ratingCount}
+      />,
+      container
+    );
   }
 
   activeForm() {

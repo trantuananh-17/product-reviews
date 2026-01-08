@@ -19,33 +19,21 @@ const initials = customer =>
     .map(name => name[0])
     .join('');
 
-const StarRating = ({reviewSumary, reviews}) => {
-  const totalPublished = Object.values(reviewSumary).reduce(
-    (sum, starObj) => sum + (starObj.published ?? 0),
-    0
-  );
-
-  const totalScore = [1, 2, 3, 4, 5].reduce((sum, star) => {
-    const key = STAR_KEY_MAP[star];
-    return sum + star * (reviewSumary[key]?.published ?? 0);
-  }, 0);
-
-  const averageRating = totalPublished ? (totalScore / totalPublished).toFixed(1) : 0;
-
+const StarRating = ({reviewSumary, reviews, rating, ratingCount}) => {
   return (
     <div className="Avada-PR__Wrapper">
       <div className={'Avada-PR__Block'}>
         <div className="Avada-PR__Rating">
           <div className="Avada-PR__Average">
-            <h1>{averageRating}</h1>
+            <h1>{rating}</h1>
             <div className="Avada-PR__Star-Outer">
               <div
                 className="Avada-PR__Star-Inner"
-                style={{width: `${(averageRating / 5).toFixed(2) * 100}%`}}
+                style={{width: `${(rating / 5).toFixed(2) * 100}%`}}
               ></div>
             </div>
             <p>
-              {totalPublished} {totalPublished === 1 ? 'review' : 'reviews'}
+              {ratingCount} {ratingCount === 1 ? 'review' : 'reviews'}
             </p>
           </div>
 
@@ -63,7 +51,7 @@ const StarRating = ({reviewSumary, reviews}) => {
                   <div className="Avada-PR__Progress-Bar">
                     <div
                       className="Avada-PR__Progress-Fill"
-                      style={{width: `${(value / totalPublished) * 100}% `}}
+                      style={{width: `${ratingCount ? (value / ratingCount) * 100 : 0}% `}}
                     ></div>
                   </div>
                   <p>{value}</p>
@@ -180,5 +168,7 @@ export default StarRating;
 
 StarRating.propTypes = {
   reviewSumary: PropTypes.object,
-  reviews: PropTypes.array
+  reviews: PropTypes.array,
+  rating: PropTypes.string,
+  ratingCount: PropTypes.string
 };
