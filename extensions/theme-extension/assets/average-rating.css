@@ -1,0 +1,51 @@
+:root {
+  --primary: #2980b9;
+  --secondary: #94c0dc;
+  --text-color: #94c0dc;
+  --bg-color: #fff;
+  --empty-color: #ededed;
+  --bg-secondary-color: #fbe8da;
+}
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: sans-serif;
+}
+
+.Avada-AR__Average {
+  flex: 1 1 0;
+  min-width: 12rem;
+  display: flex;
+  align-items: center;
+  justify-content: start;
+  gap: 1rem;
+
+  > p {
+    color: var(--primary);
+  }
+}
+
+.Avada-AR__Star-Outer {
+  position: relative;
+  font-size: 3rem;
+  display: inline-block;
+
+  &::before {
+    content: '\2605 \2605 \2605 \2605 \2605';
+    color: var(--secondary);
+  }
+
+  .Avada-AR__Star-Inner {
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    overflow: hidden;
+
+    &::before {
+      content: '\2605 \2605 \2605 \2605 \2605';
+      color: var(--primary);
+    }
+  }
+}
