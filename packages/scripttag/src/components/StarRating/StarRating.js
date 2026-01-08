@@ -41,7 +41,7 @@ const StarRating = ({reviewSumary, reviews, rating, ratingCount}) => {
             {[5, 4, 3, 2, 1].map(star => {
               const key = STAR_KEY_MAP[star];
 
-              const value = reviewSumary[key]?.published ?? 0;
+              const value = reviewSumary ? reviewSumary[key]?.published : 0;
 
               return (
                 <div key={star} className="Avada-PR__Progress-Value">

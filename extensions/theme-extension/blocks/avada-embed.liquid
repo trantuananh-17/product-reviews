@@ -4,7 +4,7 @@
 {% assign rating_count = product.metafields.reviews.rating_count %}
 
 <div>
-  {{ metafield }}
+  {{ rating }}
 </div>
 <script>
   Avada_Reviews = {
@@ -22,23 +22,52 @@
 
     product: {{ product | json }},
 
-    productReview: {% if metafield and metafield.value %}
-      JSON.parse({{ metafield.value | json }})
-    {% else %}
-      {
-        reviews: [],
-        reviewSummary: {
-          five_star: { published: 0, unpublished: 0 },
-          four_star: { published: 0, unpublished: 0 },
-          three_star: { published: 0, unpublished: 0 },
-          two_star: { published: 0, unpublished: 0 },
-          one_star: { published: 0, unpublished: 0 }
-        }
-      }
-    {% endif %},
+    productReview: {
+      reviewSummary: 
+        {% if metafield and metafield.value.reviewSummary %}
+          {{ metafield.value.reviewSummary | json }}
+        {% else %}
+          {
+            "five_star": {
+              "published": 0,
+              "unpublished": 0
+            },
+            "four_star": {
+              "unpublished": 0,
+              "published": 0
+            },
+            "three_star": {
+              "unpublished": 0,
+              "published": 0
+            },
+            "two_star": {
+              "unpublished": 0,
+              "published": 0
+            },
+            "one_star": {
+              "unpublished": 0,
+              "published": 0
+            }
+          }
+        {% endif %},
+      reviews: 
+        {%  if metafield and metafield.value.reviews %}
+          {{ metafield.value.reviews | json}}
+        {% else %}
+          []
+        {% endif %},
+      },
 
-    rating: {{ rating.value | json }},
-    ratingCount: {{ rating_count.value | json }}
+    rating: {% if rating.value %}
+      {{ rating.value | t }}
+    {% else %}
+      0
+    {% endif %},
+    ratingCount: {% if rating_count.value %}
+      {{ rating_count.value | t }}
+    {% else %}
+      0
+    {% endif %}
   };
 </script>
 

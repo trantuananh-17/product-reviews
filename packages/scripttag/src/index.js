@@ -15,6 +15,12 @@ console.log(Avada_Reviews);
   const rating = Avada_Reviews.rating;
   const ratingCount = Avada_Reviews.ratingCount;
 
+  console.log('reviewSummary', reviewSummary);
+  console.log('reviews', reviews);
+  console.log('product', reviewSummary);
+  console.log('customer', customer);
+  console.log('rating', rating);
+  console.log('ratingCount', ratingCount);
   reviewSummaryManager.initialize(
     product,
     customer,
