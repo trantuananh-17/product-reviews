@@ -1,5 +1,5 @@
 (function() {
-  const BASE_URL = 'https://difficulty-ohio-piano-makes.trycloudflare.com/scripttag';
+  const BASE_URL = 'https://holds-wider-nutrition-wolf.trycloudflare.com/scripttag';
 
   const scriptElement = document.createElement('script');
   scriptElement.type = 'text/javascript';

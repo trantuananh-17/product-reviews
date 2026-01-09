@@ -1,6 +1,9 @@
-{% assign avg_rating = product.metafields.reviews.rating.value.rating | plus: 0 %}
+{% assign rating_str = product.metafields.reviews.rating.value | append: '' %}
+{% assign avg_rating = rating_str | plus: 0 %}
+
 {% assign count = product.metafields.reviews.rating_count %}
 {% assign star_percent = avg_rating | times: 20 %}
+
 
 {% if avg_rating > 0 and count > 0%}
   <div style="width: 100%">
@@ -8,6 +11,7 @@
   </div>
 {% else %}
   <div style="width: 100%">
+    {{ avg_rating }}
     {% render 'stars', total: 0, rating: 0 , star_percent: 0%}
   </div>
 {% endif %}
