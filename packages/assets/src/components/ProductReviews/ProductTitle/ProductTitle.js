@@ -9,18 +9,15 @@ import {
   Tooltip
 } from '@shopify/polaris';
 import {PersonIcon} from '@shopify/polaris-icons';
+import PropTypes from 'prop-types';
 import React from 'react';
 
-export default function ProductTitle() {
+export default function ProductTitle({productImage, productTitle, lastName, firstName, email}) {
   return (
     <Box padding={'300'}>
       <InlineStack gap={500} wrap={false}>
         <Box>
-          <Thumbnail
-            source={
-              'https://cdn.shopify.com/s/files/1/0965/4901/1736/files/Main_589fc064-24a2-4236-9eaf-13b2bd35d21d.jpg?v=1767171974&width=160'
-            }
-          />
+          <Thumbnail source={productImage} />
         </Box>
 
         <BlockStack inlineAlign="start" gap={100}>
@@ -31,7 +28,7 @@ export default function ProductTitle() {
             target="_blank"
           >
             <Text as="span" fontWeight="semibold" variant="headingMd">
-              Product
+              {productTitle}
             </Text>
           </Button>
 
@@ -47,9 +44,9 @@ export default function ProductTitle() {
                 margin: '3px 0px 0px 2px'
               }}
             ></div>
-            <Tooltip content="anhht@avadagroup.com">
+            <Tooltip content={email}>
               <Text as="span" tone="magic-subdued">
-                Anh Anh
+                {lastName} {firstName}
               </Text>
             </Tooltip>
           </InlineStack>
@@ -58,3 +55,11 @@ export default function ProductTitle() {
     </Box>
   );
 }
+
+ProductTitle.propTypes = {
+  productImage: PropTypes.string,
+  productTitle: PropTypes.string,
+  lastName: PropTypes.string,
+  firstName: PropTypes.string,
+  email: PropTypes.string
+};

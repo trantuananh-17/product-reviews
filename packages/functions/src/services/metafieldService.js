@@ -27,18 +27,27 @@ export async function updateStatusProduct(shopData, data, status) {
     value.reviewSummary[key].published += 1;
 
     value.reviews[value.reviews.length] = data;
-  } else {
+  }
+  if (status === 'unpublished') {
     value.reviews = value.reviews.filter(review => review.id !== data.id);
+
     value.reviewSummary[key].unpublished += 1;
     value.reviewSummary[key].published -= 1;
+
+    console.log('value', value);
   }
 
-  const ratingCount = getTotalReview(value.reviewSummary);
-  const ratingScore = getRatingScore(value.reviewSummary);
+  const reviewSumary = value.reviewSummary;
 
-  console.log('ratingCount,', ratingCount);
-  console.log('ratingScore,', ratingScore);
-  console.log('value,', value);
+  console.log(reviewSumary);
+
+  const ratingCount = await getTotalReview(reviewSumary);
+  const ratingScore = getRatingScore(reviewSumary);
+  const averageRating = ratingCount > 0 ? ratingScore / ratingCount : 0;
+
+  console.log('ratingCount', ratingCount);
+  console.log('averageRating', averageRating);
+  console.log('ratingScore', ratingScore);
 
   const metafields = [
     {
@@ -51,18 +60,27 @@ export async function updateStatusProduct(shopData, data, status) {
     {
       ownerId: `gid://shopify/Product/${productId}`,
       namespace: 'reviews',
-      key: 'rating',
-      type: 'rating',
-      value: `{"scale_min":1.0,"scale_max":5.0,"value":${ratingScore / ratingCount}}`
-    },
-    {
-      ownerId: `gid://shopify/Product/${productId}`,
-      namespace: 'reviews',
       key: 'rating_count',
       type: 'number_integer',
       value: `${ratingCount}`
     }
   ];
+
+  if (averageRating >= 1 && ratingCount > 0) {
+    metafields.push({
+      ownerId: `gid://shopify/Product/${productId}`,
+      namespace: 'reviews',
+      key: 'rating',
+      type: 'rating',
+      value: JSON.stringify({
+        scale_min: 1.0,
+        scale_max: 5.0,
+        value: averageRating
+      })
+    });
+  } else {
+    await deleteMetafield(shopData, productId);
+  }
 
   await updateMetafield(shopData, metafields);
 }
@@ -116,6 +134,17 @@ export async function getMetafieldByProduct(shopData, productId) {
   return JSON.parse(value);
 }
 
+async function deleteMetafield(shopData, productId) {
+  const metafields = [
+    {
+      ownerId: `gid://shopify/Product/${productId}`,
+      namespace: 'reviews',
+      key: 'rating'
+    }
+  ];
+  await metafieldRepository.deleteMetafield(shopData, metafields);
+}
+
 function createEmptyMetafield() {
   return {
     reviews: [],
@@ -134,8 +163,6 @@ function getTotalReview(reviewSumary) {
 }
 
 function getRatingScore(reviewSumary) {
-  console.log(reviewSumary);
-
   return [1, 2, 3, 4, 5].reduce((sum, star) => {
     const key = STAR_KEY_MAP[star];
     return sum + star * (reviewSumary[key]?.published ?? 0);

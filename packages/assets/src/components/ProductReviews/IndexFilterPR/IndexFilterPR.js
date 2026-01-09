@@ -183,12 +183,36 @@ export default function IndexFilterPR() {
     reviews &&
     reviews.data.map(
       (
-        {id, product, firstName, lastName, rate, email, productId, content, createdAt, status},
+        {
+          id,
+          productImage,
+          productTitle,
+          firstName,
+          lastName,
+          rate,
+          email,
+          productId,
+          content,
+          createdAt,
+          status
+        },
         index
       ) => (
-        <IndexTable.Row id={id} key={id} selected={selectedResources.includes(id)} position={index}>
+        <IndexTable.Row
+          disabled={editLoading}
+          id={id}
+          key={id}
+          selected={selectedResources.includes(id)}
+          position={index}
+        >
           <IndexTable.Cell flush={true}>
-            <ProductTitle />
+            <ProductTitle
+              productImage={productImage}
+              firstName={firstName}
+              lastName={lastName}
+              email={email}
+              productTitle={productTitle}
+            />
           </IndexTable.Cell>
           <IndexTable.Cell>
             <StarRating rate={rate} />
