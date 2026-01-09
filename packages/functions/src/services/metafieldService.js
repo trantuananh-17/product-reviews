@@ -8,6 +8,11 @@ const STAR_KEY_MAP = {
   1: 'one_star'
 };
 
+/**
+ *
+ * @param {Shop} shopData
+ * @returns {Promise<void>}
+ */
 export async function createMetafield(shopData) {
   await checkExistMetafield(shopData);
 
@@ -16,11 +21,24 @@ export async function createMetafield(shopData) {
   console.log('Create metafield successfully');
 }
 
-export async function updateStatusProduct(shopData, data, status) {
+/**
+ * Update status review and update metafield product
+ * Get the current metafield value of the product
+ * Update value by status
+ * Recalculate the value of averageRating and ratingCount
+ * If average rating and rating count < 0. The rating metafield will be deleted
+ *
+ * @param {Shop} shopData
+ * @param {ICreateAndUpdateReview} data
+ * @param {string} status
+ *
+ * @returns {Promise<void>}
+ */
+export async function updateStatusReview(shopData, data, status) {
   const {productId, rate} = data;
 
   const key = STAR_KEY_MAP[rate];
-  const value = await getMetafieldByProduct(shopData, productId);
+  const value = await getMetafieldProduct(shopData, productId);
 
   if (status === 'published') {
     value.reviewSummary[key].unpublished -= 1;
@@ -33,21 +51,13 @@ export async function updateStatusProduct(shopData, data, status) {
 
     value.reviewSummary[key].unpublished += 1;
     value.reviewSummary[key].published -= 1;
-
-    console.log('value', value);
   }
 
   const reviewSumary = value.reviewSummary;
 
-  console.log(reviewSumary);
-
   const ratingCount = await getTotalReview(reviewSumary);
   const ratingScore = getRatingScore(reviewSumary);
   const averageRating = ratingCount > 0 ? ratingScore / ratingCount : 0;
-
-  console.log('ratingCount', ratingCount);
-  console.log('averageRating', averageRating);
-  console.log('ratingScore', ratingScore);
 
   const metafields = [
     {
@@ -85,8 +95,16 @@ export async function updateStatusProduct(shopData, data, status) {
   await updateMetafield(shopData, metafields);
 }
 
+/**
+ *
+ * @param {Shop} shopData
+ * @param {number} productId
+ * @param {number} rate
+ *
+ * @returns {Promise<void>}
+ */
 export async function createMetafieldProduct(shopData, productId, rate) {
-  const value = await getMetafieldByProduct(shopData, productId);
+  const value = await getMetafieldProduct(shopData, productId);
 
   const key = STAR_KEY_MAP[rate];
 
@@ -107,6 +125,12 @@ export async function createMetafieldProduct(shopData, productId, rate) {
   console.log('Success');
 }
 
+/**
+ *
+ * @param {Shop} shopData
+ *
+ * @returns {Promise<void>}
+ */
 export async function checkExistMetafield(shopData) {
   const metafieldExist = await metafieldRepository.findOne(shopData);
 
@@ -116,13 +140,26 @@ export async function checkExistMetafield(shopData) {
   }
 }
 
+/**
+ *
+ * @param {Shop} shopData
+ * @param {any} metafields
+ *
+ * @returns {Promise<void>}
+ */
 export async function updateMetafield(shopData, metafields) {
   await metafieldRepository.updateOne(shopData, metafields);
 
   console.log('success');
 }
 
-export async function getMetafieldByProduct(shopData, productId) {
+/**
+ *
+ * @param {Shop} shopData
+ * @param {number} productId
+ * @returns {Promise<IMetafieldProduct>}
+ */
+export async function getMetafieldProduct(shopData, productId) {
   const data = await metafieldRepository.findByProducyId(shopData, productId);
 
   const value = data?.product?.metafield?.value;
@@ -134,6 +171,13 @@ export async function getMetafieldByProduct(shopData, productId) {
   return JSON.parse(value);
 }
 
+/**
+ *
+ * @param {Shop} shopData
+ * @param {number} productId
+ *
+ * @returns {Promise<void>}
+ */
 async function deleteMetafield(shopData, productId) {
   const metafields = [
     {

@@ -2,9 +2,18 @@ import * as reviewRepository from '@functions/repositories/reviewRepository';
 import * as shopRepository from '@functions/repositories/shopRepository';
 import * as metafieldService from '@functions/services/metafieldService';
 
+/**
+ * Get reviews for admin app
+ *
+ * @param {string} shopId
+ * @param {string} softBy
+ * @param {number} limit
+ * @param {number} page
+ * @param {string} after
+ * @param {string} before
+ * @returns {Promise<{ data: IReview[], pageInfo: IPageInfo, total: number }>}
+ */
 export async function getReviews(shopId, softBy, limit, page, after, before) {
-  console.log({shopId, softBy, limit, page, after, before});
-
   if (!after && !before) {
     const [reviews, total] = await Promise.all([
       reviewRepository.findAll(shopId, softBy, limit, page, after, before),
@@ -27,6 +36,13 @@ export async function getReviews(shopId, softBy, limit, page, after, before) {
   }
 }
 
+/**
+ * Create review by customer on the storefront
+ *
+ * @param {string} shopifyDomain
+ * @param {ICreateReview} data
+ * @returns {IReview>}
+ */
 export async function createReview(shopifyDomain, data) {
   const {productId, rate} = data;
   const shopData = await shopRepository.getShopByShopifyDomain(shopifyDomain);
@@ -38,6 +54,13 @@ export async function createReview(shopifyDomain, data) {
   return review;
 }
 
+/**
+ *
+ * @param {Shop} shopData
+ * @param {string} id
+ * @param {string} status
+ * @returns {Promise<IReview>}
+ */
 export async function updateStatusReview(shopData, id, status) {
   await reviewRepository.updateOne(id, {status});
 
@@ -47,7 +70,7 @@ export async function updateStatusReview(shopData, id, status) {
     throw new Error('Reviews not found');
   }
 
-  await metafieldService.updateStatusProduct(shopData, review, status);
+  await metafieldService.updateStatusReview(shopData, review, status);
 
   return review;
 }

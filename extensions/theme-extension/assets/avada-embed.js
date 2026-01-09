@@ -1,5 +1,5 @@
 (function() {
-  const BASE_URL = 'https://trustee-bucks-dirt-depot.trycloudflare.com/scripttag';
+  const BASE_URL = 'https://family-practice-subjective-specs.trycloudflare.com/scripttag';
 
   const scriptElement = document.createElement('script');
   scriptElement.type = 'text/javascript';

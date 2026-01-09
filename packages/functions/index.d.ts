@@ -44,3 +44,61 @@ declare interface IStoreState {
   subscription: Subscription;
   toast?: {content: string; error: boolean};
 }
+
+declare interface IReview {
+  id: string;
+  lastName: string;
+  content: string;
+  shopId: string;
+  productId: number;
+  firstName: string;
+  notificationSource: string;
+  productImage: string;
+  shopDomain: string;
+  rate: number;
+  email: string;
+  ignoreContentValidation: boolean;
+  productTitle: string;
+  productHandle: string;
+  status: string;
+  createdAt: Date;
+  updatedAt?: Date;
+}
+
+declare interface IPageInfo {
+  previousCursor: boolean;
+  nextCursor: boolean;
+  hasNext: string | null;
+  hasPrev: string | null;
+}
+
+declare interface ICreateAndUpdateReview {
+  productId: number;
+  rate: number;
+}
+
+declare interface IMetafieldProduct {
+  reviews: IReview[] | [];
+  reviewSummay: {
+    five_star: {
+      published: number;
+      unpublished: number;
+    };
+    four_star: {
+      published: number;
+      unpublished: number;
+    };
+    three_star: {
+      published: number;
+      unpublished: number;
+    };
+    two_star: {
+      published: number;
+      unpublished: number;
+    };
+    one_star: {
+      published: number;
+      unpublished: number;
+    };
+  };
+}

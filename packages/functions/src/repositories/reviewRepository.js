@@ -25,7 +25,7 @@ export async function findAll(shopId, softBy, limit, page, after, before) {
         previousCursor: false,
         nextCursor: hasNext ? docs.at(-1)?.id : false,
         hasNext,
-        hasPrev: false
+        hasPrev: null
       }
     };
   }
