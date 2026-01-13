@@ -62,13 +62,13 @@ export async function createReview(shopifyDomain, data) {
  * @returns {Promise<IReview>}
  */
 export async function updateStatusReview(shopData, id, status) {
-  await reviewRepository.updateOne(id, {status});
-
   const review = await reviewRepository.findOne(id);
 
   if (!review) {
     throw new Error('Reviews not found');
   }
+
+  await reviewRepository.updateOne(id, {status});
 
   await metafieldService.updateStatusReview(shopData, review, status);
 

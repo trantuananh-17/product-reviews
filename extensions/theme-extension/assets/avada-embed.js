@@ -1,5 +1,5 @@
 (function() {
-  const BASE_URL = 'https://seek-relation-queen-anthropology.trycloudflare.com/scripttag';
+  const BASE_URL = 'https://compatibility-manufactured-uncertainty-caribbean.trycloudflare.com/scripttag';
 
   const scriptElement = document.createElement('script');
   scriptElement.type = 'text/javascript';

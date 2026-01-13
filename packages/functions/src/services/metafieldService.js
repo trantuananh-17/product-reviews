@@ -1,12 +1,6 @@
+import {STAR_KEY_MAP} from '@functions/const/app';
 import * as metafieldRepository from '@functions/repositories/metafieldRepository';
-
-const STAR_KEY_MAP = {
-  5: 'five_star',
-  4: 'four_star',
-  3: 'three_star',
-  2: 'two_star',
-  1: 'one_star'
-};
+import {logger} from 'firebase-functions/v2';
 
 /**
  *
@@ -14,11 +8,15 @@ const STAR_KEY_MAP = {
  * @returns {Promise<void>}
  */
 export async function createMetafield(shopData) {
-  await checkExistMetafield(shopData);
+  const existed = await checkExistMetafield(shopData);
+
+  if (existed) {
+    logger.info('Metafield already exists');
+    return;
+  }
 
   await metafieldRepository.save(shopData);
-
-  console.log('Create metafield successfully');
+  logger.info('Create metafield successfully');
 }
 
 /**
@@ -122,22 +120,23 @@ export async function createMetafieldProduct(shopData, productId, rate) {
 
   await metafieldRepository.updateOne(shopData, metafields);
 
-  console.log('Success');
+  logger.info('Success');
 }
 
 /**
  *
  * @param {Shop} shopData
  *
- * @returns {Promise<void>}
+ * @returns {Promise<boolean>}
  */
 export async function checkExistMetafield(shopData) {
-  const metafieldExist = await metafieldRepository.findOne(shopData);
+  const result = await metafieldRepository.findOne(shopData);
 
-  if (metafieldExist) {
-    console.log(JSON.stringify(metafieldExist));
-    return;
-  }
+  if (!result) return false;
+
+  if (!result.metafieldDefinitions) return false;
+
+  return result.metafieldDefinitions.nodes.length > 0;
 }
 
 /**
