@@ -5,7 +5,7 @@ export async function createInitAfterLogin(ctx) {
   try {
     const shopData = getCurrentShopData(ctx);
 
-    const messageId = await publishMessage('create-metafield-product', {
+    const messageId = await publishMessage('create-metafield-definition-product', {
       shopifyDomain: shopData.domain
     });
 

@@ -6,10 +6,12 @@ import authSaHandler from './handlers/authSa';
 import embedAppHandler from './handlers/embed';
 import clientApiHandler from './handlers/clientApi';
 import {onMessagePublished} from 'firebase-functions/pubsub';
-import {subcribeCreateMetafieldProduct} from './handlers/pubsub/subcribeCreateMetafieldProduct';
+import {createProductMetafieldDefinition} from './handlers/pubsub/subscribes/createProductMetafieldDefinition';
 import {onDocumentCreated, onDocumentUpdated} from 'firebase-functions/firestore';
 import {handleReviewCreated} from './handlers/events/handleReviewCreated';
 import {handleReviewUpdated} from './handlers/events/handleReviewUpdated';
+import {createMetafieldProduct} from './handlers/pubsub/subscribes/createMetafieldProduct';
+import {updateMetafieldProduct} from './handlers/pubsub/subscribes/updateMetafieldProduct';
 
 export const embedApp = onRequest(
   {memory: '256MiB', region: ['us-central1', 'us-east1', 'europe-west2', 'asia-northeast1']},
@@ -24,9 +26,19 @@ export const authSa = onRequest(authSaHandler.callback());
 
 export const clientApi = onRequest(clientApiHandler.callback());
 
+export const onCreateProductMetafieldDefinition = onMessagePublished(
+  'create-metafield-definition-product',
+  createProductMetafieldDefinition
+);
+
 export const onCreateMetafieldProduct = onMessagePublished(
   'create-metafield-product',
-  subcribeCreateMetafieldProduct
+  createMetafieldProduct
+);
+
+export const onUpdateMetafieldProduct = onMessagePublished(
+  'update-metafield-product',
+  updateMetafieldProduct
 );
 
 export const onReviewCreated = onDocumentCreated('reviews/{reviewId}', handleReviewCreated);

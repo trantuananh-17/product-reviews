@@ -1,6 +1,6 @@
+import {publishMessage} from '@functions/handlers/pubsub/publishers';
 import * as reviewRepository from '@functions/repositories/reviewRepository';
 import * as shopRepository from '@functions/repositories/shopRepository';
-import * as metafieldService from '@functions/services/metafieldService';
 
 /**
  * Get reviews for admin app
@@ -45,11 +45,16 @@ export async function getReviews(shopId, softBy, limit, page, after, before) {
  */
 export async function createReview(shopifyDomain, data) {
   const {productId, rate} = data;
+
   const shopData = await shopRepository.getShopByShopifyDomain(shopifyDomain);
 
   const review = await reviewRepository.save(data, shopData.id, shopData.shopifyDomain);
 
-  await metafieldService.createMetafieldProduct(shopData, productId, rate);
+  publishMessage('create-metafield-product', {
+    shopifyDomain: shopData.domain,
+    productId,
+    rate
+  });
 
   return review;
 }
@@ -70,7 +75,11 @@ export async function updateStatusReview(shopData, id, status) {
 
   await reviewRepository.updateOne(id, {status});
 
-  await metafieldService.updateStatusReview(shopData, review, status);
+  publishMessage('update-metafield-product', {
+    shopifyDomain: shopData.domain,
+    review,
+    status
+  });
 
   return review;
 }

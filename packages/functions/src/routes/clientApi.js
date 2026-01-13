@@ -6,11 +6,5 @@ const router = new Router({
 });
 
 router.post('/reviews', clientApiController.createReview);
-router.get('/reviews', ctx => {
-  ctx.status = 200;
-  ctx.body = {
-    message: 'Hello world'
-  };
-});
 
 export default router;
