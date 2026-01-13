@@ -6,8 +6,6 @@ export async function createInitAfterLogin(ctx) {
     const shopData = getCurrentShopData(ctx);
 
     await metafieldService.createMetafield(shopData);
-
-    // await metafieldService.updateMetafield(shopData);
   } catch (error) {
     ctx.status = 404;
     ctx.body = {

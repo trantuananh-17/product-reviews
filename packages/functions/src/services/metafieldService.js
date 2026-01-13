@@ -92,7 +92,7 @@ export async function updateStatusReview(shopData, data, status) {
     await deleteMetafield(shopData, productId);
   }
 
-  await updateMetafield(shopData, metafields);
+  await metafieldRepository.updateOne(shopData, metafields);
 }
 
 /**
@@ -120,7 +120,7 @@ export async function createMetafieldProduct(shopData, productId, rate) {
     }
   ];
 
-  await updateMetafield(shopData, metafields);
+  await metafieldRepository.updateOne(shopData, metafields);
 
   console.log('Success');
 }
@@ -138,19 +138,6 @@ export async function checkExistMetafield(shopData) {
     console.log(JSON.stringify(metafieldExist));
     return;
   }
-}
-
-/**
- *
- * @param {Shop} shopData
- * @param {any} metafields
- *
- * @returns {Promise<void>}
- */
-export async function updateMetafield(shopData, metafields) {
-  await metafieldRepository.updateOne(shopData, metafields);
-
-  console.log('success');
 }
 
 /**

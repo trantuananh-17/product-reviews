@@ -244,7 +244,7 @@ div:empty {
       outline: none;
       background: white;
       color: var(--primary);
-      font-size: 1.7rem;
+      font-size: 1.5rem;
       font-weight: 500;
       text-transform: uppercase;
       cursor: pointer;
@@ -255,8 +255,8 @@ div:empty {
       }
 
       &.-disable {
-        background: rgb(104, 104, 104);
-        color: white;
+        background: rgb(216, 216, 216);
+        color: var(--secondary);
       }
     }
   }
