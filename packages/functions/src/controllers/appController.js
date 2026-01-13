@@ -1,13 +1,11 @@
-import {publishCreateMetafield} from '@functions/handlers/pubsub/publishers';
+import {publishMessage} from '@functions/handlers/pubsub/publishers';
 import {getCurrentShopData} from '@functions/helpers/auth';
 
 export async function createInitAfterLogin(ctx) {
   try {
     const shopData = getCurrentShopData(ctx);
 
-    console.log('SHOPDATA:', shopData);
-
-    const messageId = await publishCreateMetafield({
+    const messageId = await publishMessage('create-metafield-product', {
       shopifyDomain: shopData.domain
     });
 
