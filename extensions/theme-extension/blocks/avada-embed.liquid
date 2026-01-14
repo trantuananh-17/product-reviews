@@ -2,10 +2,7 @@
 {% assign metafield = product.metafields.reviews_product.data %}
 {% assign rating = product.metafields.reviews.rating %}
 {% assign rating_count = product.metafields.reviews.rating_count %}
-
-<div>
-  {{ rating }}
-</div>
+  
 <script>
   Avada_Reviews = {
     customer: {% if customer %}

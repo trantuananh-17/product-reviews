@@ -19,13 +19,13 @@ const initials = customer =>
     .map(name => name[0])
     .join('');
 
-const StarRating = ({reviewSumary, reviews, rating, ratingCount}) => {
+const StarRating = ({reviewSumary, reviews, rating, ratingCount, customer}) => {
   return (
     <div className="Avada-PR__Wrapper">
       <div className={'Avada-PR__Block'}>
         <div className="Avada-PR__Rating">
           <div className="Avada-PR__Average">
-            <h1>{rating}</h1>
+            <h1>{rating.toFixed(2)}</h1>
             <div className="Avada-PR__Star-Outer">
               <div
                 className="Avada-PR__Star-Inner"
@@ -61,39 +61,41 @@ const StarRating = ({reviewSumary, reviews, rating, ratingCount}) => {
           </div>
         </div>
 
-        <div className="Avada-PR__Action">
-          <p>Click to review</p>
-          <div className="Avada-PR__Star-List">
-            {[5, 4, 3, 2, 1].map(star => {
-              return (
-                <>
-                  <input type="radio" name="rate" id={`rate-${star}`} value={star} />
-                  <label htmlFor={`rate-${star}`}>
-                    <StarIcon />
-                  </label>
-                </>
-              );
-            })}
-          </div>
-
-          <div className="Avada-PR__Form">
-            <header className={'Avada-PR__Form-Header'}></header>
-            <div className="Avada-PR__Form--Textarea">
-              <textarea
-                id={'Avada-PR__Form-TextArea'}
-                cols={30}
-                placeholder={'Đánh giá sản phẩm...'}
-              ></textarea>
-
-              <div className="Avada-PR__Form-Error"></div>
+        {customer && (
+          <div className="Avada-PR__Action">
+            <p>Click to review</p>
+            <div className="Avada-PR__Star-List">
+              {[5, 4, 3, 2, 1].map(star => {
+                return (
+                  <>
+                    <input type="radio" name="rate" id={`rate-${star}`} value={star} />
+                    <label htmlFor={`rate-${star}`}>
+                      <StarIcon />
+                    </label>
+                  </>
+                );
+              })}
             </div>
-            <div className="Avada-PR__Form--Button">
-              <button id={'Avada-PR__Form-Submit'} type={'submit'}>
-                Gửi
-              </button>
+
+            <div className="Avada-PR__Form">
+              <header className={'Avada-PR__Form-Header'}></header>
+              <div className="Avada-PR__Form--Textarea">
+                <textarea
+                  id={'Avada-PR__Form-TextArea'}
+                  cols={30}
+                  placeholder={'Đánh giá sản phẩm...'}
+                ></textarea>
+
+                <div className="Avada-PR__Form-Error"></div>
+              </div>
+              <div className="Avada-PR__Form--Button">
+                <button id={'Avada-PR__Form-Submit'} type={'submit'}>
+                  Gửi
+                </button>
+              </div>
             </div>
           </div>
-        </div>
+        )}
       </div>
 
       <div className={'Avada-PR__Review'}>
@@ -170,5 +172,6 @@ StarRating.propTypes = {
   reviewSumary: PropTypes.object,
   reviews: PropTypes.array,
   rating: PropTypes.string,
-  ratingCount: PropTypes.string
+  ratingCount: PropTypes.string,
+  customer: PropTypes.object
 };

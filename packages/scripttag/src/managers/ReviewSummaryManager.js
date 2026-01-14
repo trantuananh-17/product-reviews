@@ -45,6 +45,7 @@ export default class ReviewSummaryManager {
         reviews={this.reviews}
         rating={this.rating}
         ratingCount={this.ratingCount}
+        customer={this.customer}
       />,
       container
     );

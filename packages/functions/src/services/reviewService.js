@@ -1,4 +1,4 @@
-import {publishMessage} from '@functions/handlers/pubsub/publishers';
+import publishTopic from '@functions/helpers/pubsub/publishTopic';
 import * as reviewRepository from '@functions/repositories/reviewRepository';
 import * as shopRepository from '@functions/repositories/shopRepository';
 
@@ -50,7 +50,7 @@ export async function createReview(shopifyDomain, data) {
 
   const review = await reviewRepository.save(data, shopData.id, shopData.shopifyDomain);
 
-  publishMessage('create-metafield-product', {
+  await publishTopic('create-metafield-product', {
     shopifyDomain: shopData.domain,
     productId,
     rate
@@ -75,7 +75,7 @@ export async function updateStatusReview(shopData, id, status) {
 
   await reviewRepository.updateOne(id, {status});
 
-  publishMessage('update-metafield-product', {
+  await publishTopic('update-metafield-product', {
     shopifyDomain: shopData.domain,
     review,
     status
