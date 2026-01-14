@@ -1,5 +1,5 @@
 (function() {
-  const BASE_URL = 'https://picked-ascii-better-rehab.trycloudflare.com/scripttag';
+  const BASE_URL = 'https://grows-proceed-chambers-forms.trycloudflare.com/scripttag';
 
   const scriptElement = document.createElement('script');
   scriptElement.type = 'text/javascript';

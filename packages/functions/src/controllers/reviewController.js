@@ -4,9 +4,11 @@ import * as reviewService from '@functions/services/reviewService';
 export async function getReviews(ctx) {
   try {
     const shopId = getCurrentShop(ctx);
+    const shopData = getCurrentShopData(ctx);
     const {limit = 10, page = 10, softBy, after, before} = ctx.params;
 
     const {data, pageInfo, total} = await reviewService.getReviews(
+      shopData,
       shopId,
       softBy,
       Number(limit),

@@ -83,7 +83,7 @@ export default class ReviewSummaryManager {
       button.disabled = true;
       button.classList.add('-disable');
       button.textContent = 'Đang gửi...';
-      const {id, handle, featured_image, title} = this.product;
+      const {id} = this.product;
       const {rate, content} = this.formValue;
       const {firstName, lastName, email} = this.customer;
 
@@ -98,10 +98,7 @@ export default class ReviewSummaryManager {
         firstName,
         lastName,
         email,
-        productTitle: title,
-        productId: id,
-        productImage: featured_image,
-        productHandle: handle
+        productId: id
       };
 
       await this.apiManager.createReview(payload);

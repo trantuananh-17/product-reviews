@@ -51,10 +51,10 @@ export async function updateStatusReview(shopData, data, status) {
     value.reviewSummary[key].published -= 1;
   }
 
-  const reviewSumary = value.reviewSummary;
+  const reviewSummary = value.reviewSummary;
 
-  const ratingCount = await getTotalReview(reviewSumary);
-  const ratingScore = getRatingScore(reviewSumary);
+  const ratingCount = await getTotalReview(reviewSummary);
+  const ratingScore = getRatingScore(reviewSummary);
   const averageRating = ratingCount > 0 ? ratingScore / ratingCount : 0;
 
   const metafields = [
@@ -188,13 +188,13 @@ function createEmptyMetafield() {
   };
 }
 
-function getTotalReview(reviewSumary) {
-  return Object.values(reviewSumary).reduce((sum, starObj) => sum + (starObj.published ?? 0), 0);
+function getTotalReview(reviewSummary) {
+  return Object.values(reviewSummary).reduce((sum, starObj) => sum + (starObj.published ?? 0), 0);
 }
 
-function getRatingScore(reviewSumary) {
+function getRatingScore(reviewSummary) {
   return [1, 2, 3, 4, 5].reduce((sum, star) => {
     const key = STAR_KEY_MAP[star];
-    return sum + star * (reviewSumary[key]?.published ?? 0);
+    return sum + star * (reviewSummary[key]?.published ?? 0);
   }, 0);
 }

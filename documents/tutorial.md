@@ -45,6 +45,20 @@
 
 * Dùng session chung
 
+## Serverless
+
+- Serverless là mô hình chạy backend mà bạn KHÔNG cần quản lý server, nhưng server vẫn tồn tại và do nhà cung cấp cloud (Google, AWS, Azure) quản lý.
+
+## Webhook
+
+- Webhook là cách để hệ thống A chủ động gọi HTTP sang hệ thống B khi có sự kiện xảy ra.
+
+## Pubsub
+
+- Message Broker = vận chuyển bytes
+- Bên gửi phải encode → bytes
+- Bên nhận phải decode từ bytes → dữ liệu gốc
+
 # 2. Kiến thức web
 
 ## Máy tính

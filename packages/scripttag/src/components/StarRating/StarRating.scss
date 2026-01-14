@@ -227,7 +227,7 @@ div:empty {
       box-sizing: border-box;
 
       &::placeholder {
-        font-size: 1.4rem;
+        font-size: 1.1rem;
         color: var(--secondary);
       }
     }
@@ -244,19 +244,20 @@ div:empty {
       outline: none;
       background: white;
       color: var(--primary);
-      font-size: 1.5rem;
+      font-size: 1.1rem;
       font-weight: 500;
       text-transform: uppercase;
       cursor: pointer;
+      width: 100%;
 
       &:hover {
         background: var(--primary);
-        color: var(--text-color);
+        color: var(--bg-color);
       }
 
       &.-disable {
         background: rgb(216, 216, 216);
-        color: var(--secondary);
+        color: var(--primary);
       }
     }
   }
@@ -366,7 +367,7 @@ div:empty {
 
 .Avada-PR__Review-Content {
   color: var(--primary);
-  font-size: 1.2rem;
+  font-size: 1rem;
   line-height: normal;
   display: -webkit-box;
   -webkit-box-orient: vertical;
